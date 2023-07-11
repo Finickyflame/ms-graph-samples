@@ -72,4 +72,18 @@ public sealed class CustomGraphService
             throw;
         }
     }
+
+    public async Task<TodoTaskCollectionResponse?> GetTodoTasks(string userId, string todoListId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("GetTodoTasks({UserId}, {TodoListId})", userId, todoListId);
+        try
+        {
+            return await _client.Users[userId].Todo.Lists[todoListId].Tasks.GetAsync(cancellationToken: cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "GetTodoTasks failed");
+            throw;
+        }
+    }
 }
